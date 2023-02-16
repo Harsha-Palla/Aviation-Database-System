@@ -1,0 +1,53 @@
+import mysql.connector as connector
+
+class DBHelper:
+    def __init__(self):
+        self.con=connector.connect(host='localhost',port='3306',user='root',password='harsha0510',database='aviation')
+        query='create table if not exists customer(cus_id int,cus_fname varchar(200),cus_lname varchar(200),phone_no int,aadhar_no int,flight_id int)'
+        cur=self.con.cursor()
+        cur.execute(query)
+        print("Created")
+
+    def insert_customer(self,cus_id,cus_fname,cus_lname,phone_no,aadhar_no,flight_id):
+        query="insert into customer(cus_id,cus_fname,cus_lname,phone_no,aadhar_no,flight_) values({},'{}','{}',{},{},{})".format(cus_id,cus_fname,cus_lname,phone_no,aadhar_no,flight_id)
+        print(query)
+        cur=self.con.cursor()
+        cur.execute(query)
+        self.con.commit()
+        print("user saved to db")
+
+    def fetch_all(self):
+        query="select * from customer"
+        cur=self.con.cursor()
+        cur.execute(query)
+        for row in cur:
+            print("Customer ID: ",row[0])
+            print("First Name: ",row[1])
+            print("Last Name: ",row[2])
+            print("Phone number: ",row[3])
+            print("Aadhar Card Number: ",row[4])
+            print("Flight ID: ",row[5])
+    
+    def delete_customer(self,cus_id):
+        query="delete from customer where cus_id={}".format(cus_id)
+        print(query)
+        c=self.con.cursor()
+        c.execute(query)
+        self.con.commit()
+        print("deleted")
+
+    def update_customer(self,cus_id,newf_name,newl_name,newphone_no,newaadhar_no,newflight_):
+        query="update customer set newf_name='{}',newl_name='{}',newphone_no={},newaadhar_no={},newflight_={} where cus_id={}".format(newf_name,newl_name,newphone_no,newaadhar_no,newflight_,cus_id)
+        print(query)
+        cur=self.con.cursor()
+        cur.execute(query)
+        self.con.commit()
+        print("updated")
+
+
+
+
+helper=DBHelper()
+##helper.insert_customer(123,"swaroop","palla",123456789,1234567890,456)
+##helper.fetch_all()
+helper.delete_customer(123)
